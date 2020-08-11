@@ -38,11 +38,11 @@ def generate():
     with_updated = str_to_bool(request.args.get('with_updated', 'False'))
     return Response(
         stream_json_list(
-            [(yield {**{'_id': x, '_updated': time.time() if with_updated else None},
-                     **{f'{choice(adj_list)}_{choice(noun_list)}': f'{choice(adj_list)}_{choice(noun_list)}' for _ in
-                        range(0, n_fields)}})
+            ({**{'_id': str(x), '_updated': time.time() if with_updated else None},
+              **{f'{choice(adj_list)}_{choice(noun_list)}': f'{choice(adj_list)}_{choice(noun_list)}' for _ in
+                 range(0, n_fields)}}
 
-             for x in range(1, n + 1)]
+             for x in range(1, n + 1))
         ), mimetype='application/json'
     )
 
